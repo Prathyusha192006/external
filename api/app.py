@@ -32,14 +32,6 @@ app.add_middleware(
 # Global predictor instance
 predictor = ChurnPredictor()
 
-@app.on_event("startup")
-async def startup_event():
-    logger.info("Initializing Telco Churn API server...")
-    try:
-        predictor.load_artifacts()
-    except Exception as e:
-        logger.warning(f"Could not load model artifacts on startup: {e}")
-
 @app.get("/health", tags=["Health"])
 def health_check():
     """Health check endpoint confirming API service and artifact loading status."""

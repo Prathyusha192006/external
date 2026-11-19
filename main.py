@@ -11,7 +11,7 @@ from src.data_loader import load_data
 from src.validation import validate_data
 from src.feature_engineering import add_engineered_features, FeatureSelector
 from src.preprocessing import TelcoPreprocessor, preprocess_pipeline
-from src.train import train_svm, EXPERIMENT_NAME, REGISTERED_MODEL_NAME
+from src.train import train_svm, EXPERIMENT_NAME, REGISTERED_MODEL_NAME, MLFLOW_TRACKING_URI
 from src.evaluate import evaluate_model
 from src.predict import ChurnPredictor
 
@@ -41,6 +41,7 @@ def run_pipeline(
     logger.info("=" * 60)
 
     # MLflow Setup
+    mlflow.set_tracking_uri(MLFLOW_TRACKING_URI)
     mlflow.set_experiment(EXPERIMENT_NAME)
     run_name = f"SVM_Run_{version}"
     
@@ -153,7 +154,7 @@ def run_pipeline(
             logger.info("\n>>> STAGE 9: PROMOTING MODEL TO PRODUCTION IN MODEL REGISTRY")
             try:
                 from mlflow.tracking import MlflowClient
-                client = MlflowClient()
+                client = MlflowClient(tracking_uri=MLFLOW_TRACKING_URI)
                 
                 # Fetch latest model versions for TelcoChurnSVM
                 latest_versions = client.get_latest_versions(REGISTERED_MODEL_NAME)
