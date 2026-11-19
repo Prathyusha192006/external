@@ -1,0 +1,7 @@
+[core]
+    site_cache_dir = C:\Users\saich\OneDrive\Desktop\ml project\.dvc\site_cache
+    analytics = false
+    check_update = false
+    remote = myremote
+['remote "myremote"']
+    url = c:\Users\saich\OneDrive\Desktop\ml project\dvc_remote_storage
