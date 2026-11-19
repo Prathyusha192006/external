@@ -12,6 +12,7 @@ import mlflow.sklearn
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 logger = logging.getLogger("Training")
 
+MLFLOW_TRACKING_URI = "sqlite:///mlflow.db"
 EXPERIMENT_NAME = "Telco_Customer_Churn_SVM"
 REGISTERED_MODEL_NAME = "TelcoChurnSVM"
 
@@ -27,7 +28,8 @@ def train_svm(
     """
     os.makedirs("models", exist_ok=True)
     
-    # Configure MLflow
+    # Configure MLflow tracking
+    mlflow.set_tracking_uri(MLFLOW_TRACKING_URI)
     mlflow.set_experiment(EXPERIMENT_NAME)
     
     if tune_hyperparameters:
